@@ -1,7 +1,6 @@
 import { Component } from "react";
 
 import firebase from 'firebase/compat/app'
-// import { initializeApp } from 'firebase/app';
 import firebaseConfig from "../firebaseConfig";
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'

@@ -1,36 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
+import SignUp from "./components/Signup";
+import { Container } from "react-bootstrap";
+import {AuthProvider} from "./contexts/AuthContext"
 
-import firebase from "firebase/compat/app";
-import firebaseConfig from "./firebaseConfig";
-
-import LoginWithPhone from "./components/LoginWithPhone";
-import { NameForm } from "./components/Forms"
-import ChatRoom from "./components/ChatRoom";
-
-// import { useAuthState } from "react-firebase-hooks/auth";
-
-import "./App.css";
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    firebase.initializeApp(firebaseConfig);
-    this.user = firebase.auth().currentUser
-  }
-  onComponentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        this.user = user;
-      } else {
-        console.log("User Not Signed In");
-      }
-    });
-  }
-
-  render() {
-    return <div>{this.user ? <ChatRoom /> : <LoginWithPhone />}</div>;
-    // return <div> <LoginWithPhone /></div>;
-  }
+function App() {
+  return (
+    <AuthProvider>
+      <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="w-100" style={{ maxWidth: "25rem" }}>
+          <SignUp />
+        </div>
+      </Container>
+      </AuthProvider>
+  );
 }
 
 export default App;
