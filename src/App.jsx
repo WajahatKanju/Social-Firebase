@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import PrivateRoute from "./components/PrivateRoute";
+import ForgotPassword from "./components/ForgotPassword";
+import UpdateProfile from "./components/UpdateProfile";
 
 function App() {
   return (
@@ -17,9 +19,13 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
-              <Route exact path="/" element={<PrivateRoute />} />
-              <Route path='/signup' element={<SignUp />} />
-              <Route path='/login' element={<Login />} />
+              <Route path="/" element={<PrivateRoute />}>
+                <Route exact path="/" element={<Dashboard />} />
+                <Route exact path="/update-profile" element={<UpdateProfile />} />
+              </Route>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </AuthProvider>
         </Router>
@@ -29,4 +35,3 @@ function App() {
 }
 
 export default App;
-

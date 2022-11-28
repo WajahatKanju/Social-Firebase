@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebaseConfig";
 import {
-  getAuth,
+  // getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 
 const AuthContext = React.createContext();
@@ -25,8 +28,10 @@ export function AuthProvider({ children }) {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error.errorMessage);
+
         // ..
       });
   }
@@ -39,8 +44,10 @@ export function AuthProvider({ children }) {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error.errorMessage);
+
         // ..
       });
   }
@@ -52,9 +59,55 @@ export function AuthProvider({ children }) {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error.errorMessage);
+
         // ..
+      });
+  }
+
+  function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email)
+      .then((userCredential) => {
+        // Signed in
+        // const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error);
+        // ..
+      });
+  }
+
+  function update_email(email) {
+    return updateEmail(auth.currentUser, email)
+      .then((userCredential) => {
+        // Signed in
+        // const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error);
+      });
+  }
+
+  
+  function update_password(password) {
+    return updatePassword(auth.currentUser, password)
+      .then((userCredential) => {
+        // Signed in
+        // const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        throw new Error(error);
       });
   }
 
@@ -63,6 +116,9 @@ export function AuthProvider({ children }) {
     signup,
     login,
     logout,
+    resetPassword,
+    update_email,
+    update_password
   };
 
   useEffect(() => {
