@@ -1,17 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 function SignUp() {
+  const userNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  const {signup, currentUser } = useAuth();
-  
-  const [ error, setError ] = useState('');
-  const [ loading, setLoading ] = useState(false);
+  const { signup } = useAuth();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -22,9 +25,14 @@ function SignUp() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-    } catch(error) {
-      console.log(error)
+      await signup(
+        userNameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+      navigate("/");
+    } catch (error) {
+      console.log(error);
       setError("Failed To Create An Account");
     }
     setLoading(false);
@@ -39,6 +47,11 @@ function SignUp() {
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="my-4" id="email">
+              <Form.Label>Name</Form.Label>
+              <Form.Control type="text" ref={userNameRef} required />
+            </Form.Group>
+
+            <Form.Group className="my-4" id="email">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
             </Form.Group>
@@ -52,6 +65,7 @@ function SignUp() {
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type="password" ref={confirmPasswordRef} required />
             </Form.Group>
+
             <Button disabled={loading} className="w-100" type="submit">
               Sign UP
             </Button>
@@ -59,7 +73,7 @@ function SignUp() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Already Have An account ? <Link to='/login'>Login</Link>
+        Already Have An account ? <Link to="/login">Login</Link>
       </div>
     </>
   );

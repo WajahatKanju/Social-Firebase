@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Card } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
+import { profile } from "./defaults";
+
 function Dashboard() {
   const { currentUser, logout } = useAuth();
   const [error, setError] = useState();
@@ -20,9 +22,11 @@ function Dashboard() {
   }
   return (
     <>
-      <Card>
+      <Card className="text-center">
         <Card.Body>
+        <Card.Img className="rounded-circle my-4 d-inline-block" src={profile} />
           <h2 className="text-center mb-4">Profile</h2>
+          <em>Name: {currentUser.displayName}</em><br />
           <strong>Email: {currentUser && currentUser.email} </strong>
           <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
             Update Profile
