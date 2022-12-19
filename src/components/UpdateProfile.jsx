@@ -49,6 +49,7 @@ export default function UpdateProfile() {
   }
 
   getProfilePic(currentUser.uid);
+  
   async function handleSubmit(evt) {
     evt.preventDefault();
     if (passwordRef.current.value === confirmPasswordRef.current.value) {
